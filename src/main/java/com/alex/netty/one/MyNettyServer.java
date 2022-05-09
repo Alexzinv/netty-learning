@@ -1,4 +1,4 @@
-package com.alex.netty;
+package com.alex.netty.one;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -14,9 +14,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class MyNettyServer {
     public static void main(String[] args) {
-        // 创建两个线程组
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup();
-        NioEventLoopGroup workerGroup = new NioEventLoopGroup();
+        // 创建两个线程组 一个负责监控 一个处理 可自定义线程数
+        NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        NioEventLoopGroup workerGroup = new NioEventLoopGroup(16);
         try {
             // 创建服务端启动对象
             ServerBootstrap bootstrap = new ServerBootstrap();

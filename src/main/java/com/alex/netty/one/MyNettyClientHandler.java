@@ -1,4 +1,4 @@
-package com.alex.netty;
+package com.alex.netty.one;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
