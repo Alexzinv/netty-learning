@@ -37,7 +37,7 @@ public class MyNettyServer {
                     });
             System.out.println("----------服务端已经准备就绪...------------");
             // 绑定端口号，启动服务端
-            ChannelFuture future = bootstrap.bind(6666).sync();
+            ChannelFuture future = bootstrap.bind(8888).sync();
             // 对关闭通道进行监听
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
