@@ -1,4 +1,4 @@
-package com.alex.netty.one;
+package com.alex.netty.a;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -14,7 +14,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class MyNettyServer {
     public static void main(String[] args) {
-        // 创建两个线程组 一个负责监控 一个处理 可自定义线程数
+        // 创建两个线程组，可自定义线程数
+        // bossGroup用于监听客户端连接，专门负责与客户端创建连接，并把连接注册到workerGroup的Selector中
+        // workerGroup 用于处理每一个连接的读写时间
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
         NioEventLoopGroup workerGroup = new NioEventLoopGroup(16);
         try {
@@ -24,9 +26,9 @@ public class MyNettyServer {
             bootstrap.group(bossGroup, workerGroup)
                     // 设置nio channel
                     .channel(NioServerSocketChannel.class)
-                    // 设置线程队列得到连接个数
+                    // 设置线程队列得到连接个数 bossGroup线程组
                     .option(ChannelOption.SO_BACKLOG, 128)
-                    // 设置保持活动连接状态
+                    // 设置保持活动连接状态 workerGroup线程组
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
                     // 初始化通道对象
                     .childHandler(new ChannelInitializer<SocketChannel>() {

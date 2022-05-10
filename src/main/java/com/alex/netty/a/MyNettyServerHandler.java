@@ -1,4 +1,4 @@
-package com.alex.netty.one;
+package com.alex.netty.a;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class MyNettyServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        // 接收netty发送过来的消息
+        // 接收客户端发送过来的消息 对每个传入的消息都会调用
         ByteBuf buf = (ByteBuf) msg;
         System.out.println("接收到来自" + ctx.channel().remoteAddress() + "的消息 => " + buf.toString(CharsetUtil.UTF_8));
 
@@ -51,13 +51,14 @@ public class MyNettyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        // 发送消息给客户端
+        // 发送消息给客户端 在ChannelRead的最后一条批量消息之后
         ctx.writeAndFlush(Unpooled.copiedBuffer("服务端已收到消息 --->", CharsetUtil.UTF_8));
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         // 出现异常关闭通道
+        cause.printStackTrace();
         ctx.close();
     }
 }
